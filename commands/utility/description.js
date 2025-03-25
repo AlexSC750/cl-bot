@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const {db,Card} = require("../../functions/misc.js")
+const {db, get_embed} = require("../../functions/misc.js")
 
 var table = {}
 for (const key in db) {
@@ -14,15 +14,20 @@ module.exports = {
 		.setName('description')
 		.setDescription('Show the description of a card.')
 		.addStringOption(option =>
-			option.setName('category')
-				.setDescription('The gif category')
+			option.setName('card')
+				.setDescription('The card you wish to see.')
 				.setRequired(true)
 				.addChoices(
-					{ name: 'Funny', value: 'gif_funny' },
-					{ name: 'Meme', value: 'gif_meme' },
-					{ name: 'Movie', value: 'gif_movie' },
+					{ name: 'Conet', value: 'Conet' },
+					{ name: 'temp', value: 'placeholder' },
 				)),
 	async execute(interaction) {
-
+		const target = interaction.options.getString("card")
+		try {
+			await interaction.reply({embeds: [get_embed(db[target])]})
+		} catch (error) {
+			console.error(error);
+			await interaction.reply("Something broke (error)")
+		}
 	},
 };

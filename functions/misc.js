@@ -1,5 +1,3 @@
-
-
 const db = {
 	placeholder : {
 		atk : 1,
@@ -59,8 +57,46 @@ const db = {
 			"Conet tries again...\n`'Is my signal fading...?'`",
 			"Conet tries again...\n`'Why aren't you answering...?'`"
 		],
-		icon_name : "📻"
+		icon_name : "📻",
+		color : 0x804e41
 	}
+}
+
+function get_embed(data = {}) {
+	return {
+		color: data.color ?? 0x000000,
+		title: data.name ?? "",
+		author: {
+			name: "Carder's Legacy",
+			icon_url: 'https://github.com/AlexSC750/cl-bot/blob/main/assets/cl_icon.png',
+		},
+		description: `\`${data.desc}\`` ?? "",
+		fields: [
+			{
+				name: '',
+				value: data.lore ?? "",
+			},
+			{
+				name: '==== STATS ====',
+				value: 
+				`**HP**: ${data.max_hp ?? NaN}
+				**ATK**: ${data.atk ?? NaN}
+				**DEF**: ${data.def ?? NaN}
+				**SPD**: ${data.speed ?? NaN}
+				**EQ**: ${data.eq ?? NaN}
+				`,
+				inline: true,
+			},
+			{
+				name: '==== ABILITY ====',
+				value: `
+				**${data.ability_name} :**
+				${data.ability_desc}
+				`,
+				inline: true,
+			},
+		],
+	};
 }
 
 class Card {
@@ -73,4 +109,4 @@ class Card {
 	}
 }
 
-module.exports = {db, Card}
+module.exports = {db, Card, get_embed}
